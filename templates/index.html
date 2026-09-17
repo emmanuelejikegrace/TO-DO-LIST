@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>My To-Do List</title>
+    <link rel="stylesheet"
+            href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
@@ -18,8 +20,24 @@
      
     <ul>
         {% for task in tasks %}
-           <li>{{ task }}</li>
-        {% endfor %}    
+
+           <li>
+               {% if task["completed"] %}
+                   <s>{{ task["name"] }}</s>
+                   — Completed! ✓
+                {% else %}   
+                    {{ task["name"] }}
+
+                    <form action="/complete/{{ loop.index0 }}" method="POST" style="display: inline">
+                        <button type="submite">Complete</button>
+                    </form>
+                    
+                {% endif %}    
+
+           </li>
+
+        {% endfor %}
+
     </ul>
 
 </body>

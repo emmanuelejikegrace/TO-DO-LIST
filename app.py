@@ -2,7 +2,11 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-tasks = [ ]
+tasks = [
+    {"name": "learn falsk", "completed": False},
+    {"name": "Build to-do app", "completed": False},
+    {"name": "Practice python", "completed": False}
+]
 
 @app.route("/")
 def home():
@@ -13,10 +17,29 @@ def add_task():
     task = request.form["task"]
 
     if task.strip() == "":
-        return render_template("index.html", tasks=tasks, message="Task caonnot be empty!")
-    tasks.append(task) 
+        return render_template(
+            "index_html",
+            tasks=tasks,
+            message="Task cannot be empty!"
+        )
 
-    return render_template("index.html",tasks=tasks)   
+    for existing_task in tasks:
+        if existing_task["name"] == task:
+            return render_template(
+                "index_html",
+                tasks=tasks,
+                message="Task already exists!"
+            )
+
+    tasks.append({"name": task, "completed": False}) 
+
+    return render_template("index.html",tasks=tasks)  
+
+@app.route("/complete/<int:task_id>", methods=["POST"])
+def complete_task(task_id):
+    tasks[task_id]["completed"] = True
+
+    return render_template("index.html", tasks=tasks)
 
 @app.route("/about")
 def about():
