@@ -4,8 +4,10 @@ app = Flask(__name__)
 
 tasks = [
     {"name": "learn falsk", "completed": False},
+
     {"name": "Build to-do app", "completed": False},
-    {"name": "Practice python", "completed": False}
+
+    {"name": "Practice python", "completed": False},
 ]
 
 @app.route("/")
@@ -18,7 +20,7 @@ def add_task():
 
     if task.strip() == "":
         return render_template(
-            "index_html",
+            "index.html",
             tasks=tasks,
             message="Task cannot be empty!"
         )
@@ -26,9 +28,10 @@ def add_task():
     for existing_task in tasks:
         if existing_task["name"] == task:
             return render_template(
-                "index_html",
+                "index.html",
                 tasks=tasks,
                 message="Task already exists!"
+
             )
 
     tasks.append({"name": task, "completed": False}) 
@@ -38,6 +41,36 @@ def add_task():
 @app.route("/complete/<int:task_id>", methods=["POST"])
 def complete_task(task_id):
     tasks[task_id]["completed"] = True
+
+    return render_template("index.html", tasks=tasks)
+
+@app.route("/delete/<int:task_id>", methods=["POST"])
+def delete_task(task_id):
+    tasks.pop(task_id)
+
+    return render_template("index.html", tasks=tasks)
+
+@app.route("/edit/<int:task_id>", methods=["POST"])
+def edit_task(task_id):
+    new_task = request.form["new_task"]
+
+    if new_task.strip() == "":
+        return render_template(
+            "index.html",
+            tasks=tasks,
+            message="Task cannot be empty!"
+        )
+
+    for existing_task in tasks:
+        if existing_task["name"] == new_task and existing_task != tasks[task_id]:
+            return render_template(
+                "index.html",
+                tasks=tasks,
+                message="Task already exists!"
+
+            )
+        
+    tasks[task_id]["name"] = new_task 
 
     return render_template("index.html", tasks=tasks)
 
