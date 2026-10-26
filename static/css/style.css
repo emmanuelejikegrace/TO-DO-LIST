@@ -137,37 +137,60 @@ h1::after {
     list-style: none;
     padding: 0;
     margin: 0;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
 }
 
 .task-list li {
     background: rgba(7, 25, 42, 0.85);
 
     border: 1px solid #23445c;
-    border-radius: 12px;
+    border-radius: 14px;
 
-    padding: 18px 20px;
-    margin-bottom: 15px;
+    padding: 20px;
+    margin-bottom: 0;
+    aspect-ratio: 1 / 1;
+    box-sizing: border-box;
 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
 
-    transition: 0.2s;
-    position: relative;
+    transition: border-color 0.25s ease,
+                box-shadow 0.25s ease,
+                transform 0.25s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .task-list li:hover {
-    border-color: #00ff9d;
+    border-color: rgba(0, 255, 157, 0.7);
 
-    box-shadow:
-        0 0 15px rgba(0, 255, 157, 0.15);
+    box-shadow: 0 6px 20px rgba(0, 255, 157, 0.12);
 
     transform: translateY(-2px);    
+}
+.task-content{
+    margin-bottom: 12px;
+}
+
+.task-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 0;
+}
+
+.task-action form {
+    margin: 0;
 }
 
 .complete-btn {
     padding: 8px 14px;
     font-size: 14px;
     font-weight: 600;
-    color: white;
+    color: #00d992;
     background: #00b86b;
     border: none;
     border-radius: 8px;
@@ -179,10 +202,18 @@ h1::after {
     background: #00e88a;
     transform:translateY(-2px);
     box-shadow: 0 0 12px rgba(0, 255, 157, 0.5);
+    color: #72ffc7;
+}
+
+.complete-label {
+    display: block;
+    margin-top: 8px;
+    color: #00d992;
+    font-size:13px;
 }
 
 .delete-btn {
-    position: absolute;
+    position: static;
     right: 15px;
     bottom: 15px;
 
@@ -190,7 +221,7 @@ h1::after {
     margin-left: 10px;
     font-size: 14px;
     font-weight: 600;
-    color: white;
+    color: #ff718c;
     background: #d9365f;
     border: none;
     border-radius: 8px;
@@ -202,13 +233,15 @@ h1::after {
     background: #ff4f75;
     transform:translateY(-2px);
     box-shadow: 0 0 12px rgba(255, 79, 117, 0.5);
+    color: #ff9caf;
 }
 
 .edit-form {
     display: flex;
     gap: 8px;
-    margin-top: 12px;
-    padding-right: 100px;
+    margin-top: auto;
+    margin-bottom: 12px;
+    padding-right: 0;
 }
 
 .edit-input {
@@ -232,20 +265,22 @@ h1::after {
 
 .save-btn {
     padding: 8px 14px;
-    font-size: 14px;
+    margin: 0;
+    font-size: 13px;
     font-weight: 600;
-    color: white;
-    background: #087ea4;
+    background: transparent;
     border: none;
-    border-radius: 8px;
+    border-radius: 0;
     cursor: pointer;
-    transition: 0.2s;
+    transition: color 0.2s ease;
+    color: #64cde8;
 }
 
 .save-btn:hover {
     background: #0aa9d6;
     transform: translateY(-2px);
     box-shadow: 0 0 12px rgba(10, 169, 214, 0.5);
+    color: #a1edff;
 }
 
 .task-main {
@@ -258,6 +293,7 @@ h1::after {
     font-size: 18px;
     font-weight: 600;
     color: #f1f5f9;
+    overflow-wrap: anywhere;
 }
 
 li {
